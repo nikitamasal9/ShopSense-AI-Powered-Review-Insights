@@ -38,6 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'products', 
+    'tailwind',
+    'theme',
+    'django_browser_reload',
 ]
 
 MIDDLEWARE = [
@@ -48,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_browser_reload.middleware.BrowserReloadMiddleware',
 ]
 
 ROOT_URLCONF = 'shopsense.urls'
@@ -70,7 +74,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'shopsense.wsgi.application'
 
-
+TAILWIND_APP_NAME = 'theme'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
