@@ -1,26 +1,40 @@
-/product_list.html -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product List</title>
+    {% load static %}
+    <link href="{% static 'products/css/product_list.css' %}" rel="stylesheet">
+    <script>
+        function confirmDelete() {
+            return confirm('Are you sure you want to delete this product?');
+        }
+    </script>
 </head>
 <body>
-    <h1>Product List</h1>
-    <a href="{% url 'add_product' %}">Add Product</a>
-    <ul>
-        {% for product in products %}
-            <li>
+    <div class="navbar">
+        <h1>Product List</h1>
+        <a href="{% url 'add_product' %}">Add Product</a>
+    </div>
+    <div class="container">
+        <div class="product-list">
+            {% for product in products %}
+            <div class="product-item">
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
                 <h2>{{ product.name }}</h2>
                 <p>{{ product.description }}</p>
-                <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                <p>Price: ${{ product.price }}</p>
-                <form action="{% url 'delete_product' product.id %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit">Delete</button>
-                </form>
-                <a href="{% url 'update_product' product.id %}">Update</a>
-            </li>
-        {% endfor %}
-    </ul>
+                <p class="price">${{ product.price }}</p>
+                <div class="actions">
+                    <a href="{% url 'update_product' product.id %}" class="update">Update</a>
+                    <form action="{% url 'delete_product' product.id %}" method="post" onsubmit="return confirmDelete();">
+                        {% csrf_token %}
+                        <button type="submit">Delete</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 </body>
 </html>
