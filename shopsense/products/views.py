@@ -1,6 +1,16 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import ProductForm
 from .models import Product
+from django.http import HttpResponse
+
+def subscribe(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        payment = request.POST.get('payment')
+        return HttpResponse("Subscription processed successfully!")
+    return render(request, 'products/subscribe.html')
+
 
 def add_product(request):
     if request.method == 'POST':

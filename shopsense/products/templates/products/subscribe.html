@@ -1,0 +1,38 @@
+\<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscribe</title>
+    {% load static %}
+    <link href="{% static 'products/css/subscribe.css' %}" rel="stylesheet">
+</head>
+<body>
+    <div class="form-container">
+        <h1>Subscribe to Our Plan</h1>
+        <form method="post" action="{% url 'subscribe' %}">
+            {% csrf_token %}
+            <p>
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+            </p>
+            <p>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </p>
+            <p>
+                <label for="payment">Payment Option</label>
+                <select id="payment" name="payment" required>
+                    <option value="credit_card">Credit Card</option>
+                    <option value="paypal">PayPal</option>
+                    <option value="bank_transfer">Bank Transfer</option>
+                </select>
+            </p>
+            <div class="form-actions">
+                <button type="submit">Subscribe</button>
+                <a href="{% url 'product_list' %}" class="cancel">Cancel</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

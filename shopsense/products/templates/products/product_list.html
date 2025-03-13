@@ -15,7 +15,13 @@
 <body>
     <div class="navbar">
         <h1>Product List</h1>
-        <a href="{% url 'add_product' %}">Add Product</a>
+        <div class="navbar-buttons">
+            <a href="{% url 'add_product' %}">Add Product</a>
+            <a href="{% url 'subscribe' %}" class="subscribe">
+                Subscribe
+                <span class="tooltiptext">For better data insights and visualization, subscribe to our plan.</span>
+            </a>
+        </div>
     </div>
     <div class="container">
         <div class="product-list">
