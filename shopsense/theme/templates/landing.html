@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="min-h-screen flex items-center justify-center bg-gray-100">
+    <div class="text-center p-10 bg-white shadow-lg rounded-lg max-w-2xl">
+        <h1 class="text-5xl font-extrabold text-gray-900">Welcome to <span class="text-blue-600">ShopSense</span></h1>
+        <p class="mt-4 text-lg text-gray-700">Discover the best products curated just for you.</p>
+
+        <!-- Call to Action -->
+        <div class="mt-6">
+            <a href="{% url 'sign_up' %}" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-300">
+                Get Started
+            </a>
+        </div>
+
+        <!-- Decorative Line -->
+        <div class="mt-8 border-t border-gray-300"></div>
+
+        <!-- Features Section -->
+        <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h3 class="text-lg font-semibold text-gray-800">Wide Selection</h3>
+                <p class="text-sm text-gray-600">Thousands of top-rated products to choose from.</p>
+            </div>
+            <div class="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h3 class="text-lg font-semibold text-gray-800">Fast Delivery</h3>
+                <p class="text-sm text-gray-600">Get your orders delivered in record time.</p>
+            </div>
+            <div class="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h3 class="text-lg font-semibold text-gray-800">Secure Payments</h3>
+                <p class="text-sm text-gray-600">Your transactions are always safe and protected.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
