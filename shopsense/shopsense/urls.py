@@ -24,8 +24,7 @@ from . import views
 
 
 urlpatterns = [
-    path('', views.home, name='home'),
-    path('index', views.landing_page, name='index'),
+    path('', views.landing_page, name='landing_page'),
     path('admin/', admin.site.urls),
     path("__reload__/", include("django_browser_reload.urls")),
     path('products/', include('products.urls')),    
