@@ -2,6 +2,22 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import ProductForm
 from .models import Product
 from django.http import HttpResponse
+from django.http import JsonResponse
+import requests
+
+
+def customer_reviews(request):
+    if request.method == 'POST':
+        review_text = request.POST.get('review')
+        if review_text:
+            # Send the review to the reviews app for analysis
+            response = requests.post('http://localhost:8000/reviews/api/analyze_review/', data={'review': review_text})
+            if response.status_code == 200:
+                analysis_result = response.json()
+                return JsonResponse(analysis_result)
+            else:
+                return JsonResponse({'error': 'Failed to analyze review'}, status=500)
+    return render(request, 'products/customer_reviews.html')
 
 def subscribe(request):
     if request.method == 'POST':
