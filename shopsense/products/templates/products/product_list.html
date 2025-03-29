@@ -13,6 +13,7 @@
     </script>
 </head>
 <body>
+
     <div class="navbar">
         <h1>Product List</h1>
         <div class="navbar-buttons">
@@ -42,5 +43,29 @@
             {% endfor %}
         </div>
     </div>
+
+    <h1>Product List</h1>
+    <a href="{% url 'add_product' %}">Add Product</a>
+    {% if product %}
+    <ul>
+        {% for product in products %}
+            <li>
+                <h2>{{ product.name }}</h2>
+                <p>{{ product.description }}</p>
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                <p>Price: ${{ product.price }}</p>
+                <a href="{% url 'add_to_cart' product.id %}">Add to Cart</a>
+                <form action="{% url 'delete_product' product.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Delete</button>
+                </form>
+                <a href="{% url 'update_product' product.id %}">Update</a>
+            </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No products available.</p>
+{% endif %}
+
 </body>
 </html>
