@@ -20,13 +20,15 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import include, path
-from .views import home, product_detail, landing_page
+from .views import customer_dashboard, home, product_detail, landing_page, seller_dashboard
 
 
 urlpatterns = [
     path('', landing_page, name='landing_page'),
     path('', home, name='home'),
     path('products/', home, name='product_list'),
+    path('customer/dashboard/', customer_dashboard, name='customer_dashboard'),
+    path('seller/dashboard/', seller_dashboard, name='seller_dashboard'),
 
     path('product/<str:product_name>/', product_detail, name='product_detail'),  
     path('admin/', admin.site.urls),
