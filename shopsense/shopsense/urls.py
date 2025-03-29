@@ -20,11 +20,15 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import include, path
-from . import views
+from .views import home, product_detail, landing_page
 
 
 urlpatterns = [
-    path('', views.landing_page, name='landing_page'),
+    path('', landing_page, name='landing_page'),
+    path('', home, name='home'),
+    path('products/', home, name='product_list'),
+
+    path('product/<str:product_name>/', product_detail, name='product_detail'),  
     path('admin/', admin.site.urls),
     path("__reload__/", include("django_browser_reload.urls")),
     path('products/', include('products.urls')),    

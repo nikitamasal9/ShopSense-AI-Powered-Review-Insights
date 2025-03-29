@@ -1,7 +1,7 @@
 {% load static %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">
+        <a class="navbar-brand" href="{% url 'home' %}">
             <img src="" alt="Your Company Logo" class="h-8 w-auto">
         </a>
         <!-- Mobile menu toggle -->
@@ -15,12 +15,9 @@
                     <a class="nav-link active" href="#">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'product_list' %}">View Product</a>
+                    <a class="nav-link" href="{% url 'home' %}">View Product</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'add_product' %}">Add Product</a>
-                </li>
-            </ul>
+                
 
             <!-- Search Form -->
             <form class="d-flex ms-auto" method="get" action="">
