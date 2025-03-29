@@ -31,7 +31,7 @@ urlpatterns = [
     path('product/<str:product_name>/', product_detail, name='product_detail'),  
     path('admin/', admin.site.urls),
     path("__reload__/", include("django_browser_reload.urls")),
-    path('products/', include('products.urls')),  
+    path('seller_products/', include('products.urls')),  
     path('reviews/', include('reviews.urls')),   
     path('auth/', include('Authentication.urls')),        
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
