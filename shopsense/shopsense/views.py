@@ -52,3 +52,7 @@ def landing_page(request):
     #     return redirect('/auth/signin')
     return render(request, 'landing.html')
 
+def customer_dashboard(request):
+    return render(request, 'customer_dashboard.html')
+def seller_dashboard(request):
+    return render(request, 'seller_dashboard.html')
