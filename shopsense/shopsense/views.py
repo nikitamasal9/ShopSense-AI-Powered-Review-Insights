@@ -48,7 +48,7 @@ def product_detail(request, product_name):
 
 
 def landing_page(request):
-    if not request.user.is_authenticated:
-        return redirect('/auth/signin')
+    # if not request.user.is_authenticated:
+    #     return redirect('/auth/signin')
     return render(request, 'landing.html')
 
