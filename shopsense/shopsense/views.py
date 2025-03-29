@@ -6,7 +6,7 @@ def home(request):
     return render(request, 'base.html')
 
 def landing_page(request):
-    if not request.user.is_authenticated:
-        return redirect('/auth/signin')
+    # if not request.user.is_authenticated:
+    #     return redirect('/auth/signin')
     return render(request, 'landing.html')
 
