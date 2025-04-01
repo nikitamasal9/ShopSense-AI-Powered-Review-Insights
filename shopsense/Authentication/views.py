@@ -21,7 +21,8 @@ def customer_signup(request):
             customer.user = user
             customer.save()
             login(request, user)
-            return redirect('/customer/dashboard')
+            return HttpResponse("Customer dashboard")
+            # return redirect('/customer/dashboard')
     else:
         form = CustomerSignUpForm()
     return render(request, 'customer_signup.html', {'form': form})
@@ -35,7 +36,8 @@ def seller_signup(request):
             seller.user = user
             seller.save()
             login(request, user)
-            return redirect('/seller/dashboard')
+            return HttpResponse("Seller dashboard")
+            # return redirect('/seller/dashboard')
     else:
         form = SellerSignUpForm()
     return render(request, 'seller_signup.html', {'form': form})
