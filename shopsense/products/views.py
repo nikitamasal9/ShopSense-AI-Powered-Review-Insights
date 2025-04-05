@@ -1,10 +1,22 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.core.exceptions import PermissionDenied
 from .forms import ProductForm
+from functools import wraps
 from .models import Product
 from django.http import HttpResponse
 from django.http import JsonResponse
-import requests
+from Authentication.models import Customer, Seller
+# import requests
 
+def is_customer(view_func):
+    @wraps(view_func)
+    def _wrapped_view(request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('user_login')  # Redirect unauthenticated users
+        if not hasattr(request.user, 'customer'):
+            raise PermissionDenied("You must be a customer to access this page.")
+        return view_func(request, *args, **kwargs)
+    return _wrapped_view
 
 def customer_reviews(request):
     if request.method == 'POST':
@@ -40,8 +52,12 @@ def add_product(request):
 
 def product_list(request):
     products = Product.objects.all()
-    return render(request, 'products/product_list.html', {'products': products})
-
+    seller=Seller.objects.all()
+    customer=Customer.objects.all()
+    if request.user.is_authenticated and hasattr(request.user, 'customer'):
+        return render(request, 'products/allproducts.html', {'products': products})
+    else:
+        return render(request, 'products/product_list.html', {'products': products})
 def delete_product(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     if request.method == 'POST':

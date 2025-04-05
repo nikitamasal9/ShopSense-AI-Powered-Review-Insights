@@ -1,29 +1,87 @@
-{% extends "base.html" %} 
+{% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-
-<div class="container mt-4">
-  <h2 class="mb-4">Available Products</h2>
-  <div class="row">
-    {% for product in products %}
-      <div class="col-md-4">
-        <div class="card mb-4 shadow-sm">
-          {% if product.image %}
-            <img src="{{ product.image }}" class="card-img-top" alt="{{ product.name }}">
-          {% else %}
-            <img src="https://via.placeholder.com/300" class="card-img-top" alt="No image available">
-          {% endif %}
-          <div class="card-body">
-            <h5 class="card-title">{{ product.name }}</h5>
-            <p class="card-text">${{ product.price }}</p>
-            <a href="{% url 'product_detail' product.name %}" class="btn btn-primary">View Details</a>
-          </div>
+<div class="bg-light min-vh-100 d-flex flex-column">
+    <!-- Welcome Section -->
+    <div class="container py-5 flex-grow-1 d-flex align-items-center justify-content-center">
+        <div class="text-center p-5 bg-white shadow-lg rounded-3 max-w-2xl">
+            <h1 class="display-4 fw-bold text-dark mb-4">
+                Welcome to <span class="text-primary">ShopSense</span>
+            </h1>
+            <p class="lead text-muted mb-5">
+                Discover the best products curated just for you.
+            </p>
+            {%if user.is_authenticated%}
+            {%else%}
+            <a href="auth/signin" class="btn btn-primary btn-lg px-5 py-3 fw-semibold shadow-sm">
+                Get Started
+            </a>
+            {%endif%}
         </div>
-      </div>
-    {% empty %}
-      <p class="text-muted">No products available.</p>
-    {% endfor %}
-  </div>
+    </div>
+
+    <!-- Product List Section -->
+    <div class="container py-5">
+        <h2 class="text-center fw-bold mb-5">Featured Products</h2>
+        <div class="row g-4">
+            {% for product in products %}
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm border-0 hover-shadow">
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="height: 250px; object-fit: cover;">
+                        {% else %}
+                            <img src="https://via.placeholder.com/300" class="card-img-top" alt="No image available" style="height: 250px; object-fit: cover;">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title fw-semibold">{{ product.name }}</h5>
+                            <p class="card-text text-muted">{{ product.description|truncatewords:15 }}</p>
+                            <p class="card-text fw-bold text-dark">${{ product.price }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a href="{% url 'product_detail' product.id %}" class="btn btn-primary">View Details</a>
+                                {% if user.is_authenticated %}
+                                    <a href="#" class="btn btn-outline-success">Add to Cart</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12">
+                    <p class="text-muted text-center py-5">No products available yet. Check back soon!</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="bg-dark text-white py-5 mt-auto">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-4 mb-3">
+                    <h5 class="fw-semibold">Wide Selection</h5>
+                    <p class="text-muted small">Thousands of top-rated products to choose from.</p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h5 class="fw-semibold">Fast Delivery</h5>
+                    <p class="text-muted small">Get your orders delivered in record time.</p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h5 class="fw-semibold">Secure Payments</h5>
+                    <p class="text-muted small">Your transactions are always safe and protected.</p>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <small class="text-muted">&copy; 2025 ShopSense. All rights reserved.</small>
+            </div>
+        </div>
+    </footer>
 </div>
 
+<style>
+    .hover-shadow:hover {
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+        transition: box-shadow 0.3s ease-in-out;
+    }
+</style>
 {% endblock %}
