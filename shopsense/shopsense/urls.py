@@ -20,20 +20,20 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import include, path
-from .views import customer_dashboard, home, product_detail, landing_page, seller_dashboard
+from .views import customer_dashboard, home, product_detail, seller_dashboard
 
 
 urlpatterns = [
-    path('', landing_page, name='landing_page'),
+    # path('', landing_page, name='landing_page'),
     path('', home, name='home'),
-    path('products/', home, name='product_list'),
+    # path('products/', home, name='product_list'),
     path('customer/dashboard/', customer_dashboard, name='customer_dashboard'),
     path('seller/dashboard/', seller_dashboard, name='seller_dashboard'),
 
     path('product/<str:product_name>/', product_detail, name='product_detail'),  
     path('admin/', admin.site.urls),
     path("__reload__/", include("django_browser_reload.urls")),
-    path('seller_products/', include('products.urls')),  
+    path('products/', include('products.urls')),  
     path('reviews/', include('reviews.urls')),   
     path('auth/', include('Authentication.urls')),        
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
