@@ -1,15 +1,32 @@
-{% load static tailwind_tags %}
+{% comment %} {% load static tailwind_tags %} {% endcomment %}
+{% load static %} 
 <!DOCTYPE html>
 <html lang="en">
-	<head>
+<head>
     <title>ShopSense</title>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta http-equiv="X-UA-Compatible" content="ie=edge">
-		{% tailwind_css %}
-	</head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    {% comment %} {% tailwind_css %} {% endcomment %}
 
-	<body class="bg-gray-50 font-serif leading-normal tracking-normal">
-		{% include 'navbar.html' %}
-	</body>
+</head>
+<body>
+	{% include 'navbar.html' %}
+
+	<div class="container mt-5">
+			{% block content %}{% endblock %}
+	</div>
+
+	<!-- Bootstrap JS, Popper.js, and jQuery -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9gybF2JQF3zw2p6z9U2Epvz0jpD/j3dPryaPBn6jp7IJv2Tq4gE" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-pzjw8f+ua7Kw1TIq0l7jx/9zZ1V3W4g6pAk97EjSu4z3kVd1PpVlbw5tqiTcFkk6" crossorigin="anonymous"></script>
+</body>
+{% comment %} <body class="bg-gray-50 font-serif leading-normal tracking-normal">
+    {% include 'navbar.html' %}
+    <div class="container mx-auto px-4">
+        {% block content %}{% endblock %}
+    </div>
+</body> {% endcomment %}
 </html>

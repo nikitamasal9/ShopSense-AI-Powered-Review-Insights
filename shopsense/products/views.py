@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import ProductForm
 from .models import Product
+from django.http import JsonResponse
+
 
 def add_product(request):
     if request.method == 'POST':
@@ -34,14 +36,8 @@ def update_product(request, product_id):
         form = ProductForm(instance=product)
     return render(request, 'products/update_item.html', {'form': form, 'product': product})
 
-def add_to_cart(request, product_id):
-    cart = request.session.get('cart', {})
-    cart[product_id] = cart.get(product_id, 0) + 1  
-    request.session['cart'] = cart 
-    return redirect('cart_view')
 
-def cart_view(request):
-    cart = request.session.get('cart', {})
-    products = Product.objects.filter(id__in=cart.keys())  
-    cart_items = [{'product': p, 'quantity': cart[str(p.id)]} for p in products]
-    return render(request, 'products/cart.html', {'cart_items': cart_items})
+
+
+
+

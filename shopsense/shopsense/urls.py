@@ -20,13 +20,27 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import include, path
-from . import views
+
+from .views import add_to_cart,cart_view, checkout, home, product_detail, landing_page
 
 
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('', landing_page, name='landing_page'),
+    # path('', home, name='home'),
+    path('display_products/', home, name="display_products"), #this will display all products 
 
+
+
+    path('product/<str:product_name>/', product_detail, name='product_detail'),  
     path('admin/', admin.site.urls),
     path("__reload__/", include("django_browser_reload.urls")),
-    path('products/', include('products.urls')),        
+
+    
+    
+    path('add-to-cart/', add_to_cart, name='add_to_cart'),
+    path('cart/', cart_view, name='cart_view'),
+    path('checkout/', checkout, name='checkout'),
+
+    path('auth/', include('Authentication.urls')),        
+
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
