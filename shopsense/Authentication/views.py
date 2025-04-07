@@ -34,7 +34,7 @@ def customer_signup(request):
             customer.user = user
             customer.save()
             login(request, user)
-            return render("/")
+            return redirect("/")
             # return redirect('/customer/dashboard')
     else:
         form = CustomerSignUpForm()
