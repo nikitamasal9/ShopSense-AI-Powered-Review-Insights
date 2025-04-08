@@ -5,8 +5,7 @@ from functools import wraps
 from .models import Product
 from django.http import HttpResponse
 from django.http import JsonResponse
-from Authentication.models import Customer, Seller
-# import requests
+import requests
 
 def is_customer(view_func):
     @wraps(view_func)
@@ -52,12 +51,13 @@ def add_product(request):
 
 def product_list(request):
     products = Product.objects.all()
-    seller=Seller.objects.all()
-    customer=Customer.objects.all()
-    if request.user.is_authenticated and hasattr(request.user, 'customer'):
-        return render(request, 'products/allproducts.html', {'products': products})
-    else:
-        return render(request, 'products/product_list.html', {'products': products})
+    # print(products)
+    # if request.user.is_authenticated and hasattr(request.user, 'customer'):
+    #     return render(request, 'products/allproducts.html', {'products': products})
+    # else:
+    print(f"Products count: {products.count()}")
+    return render(request, 'products/product_list.html', {'products': products})
+
 def delete_product(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     if request.method == 'POST':
