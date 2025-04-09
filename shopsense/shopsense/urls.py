@@ -19,20 +19,26 @@ from django.urls import path, include
 
 from django.conf import settings
 from django.conf.urls.static import static
-from django.urls import include, path
-from .views import customer_dashboard, home, product_detail, seller_dashboard
+# from django.urls import include, path
+# from .views import home, product_detail, landing_page
 from django.views.generic import RedirectView
 
 urlpatterns = [
     # path('', landing_page, name='landing_page'),
-    path('', RedirectView.as_view(url='products/', permanent=True)),  
+    # path('', home, name='home'),
     path('admin/', admin.site.urls),
-    path("__reload__/", include("django_browser_reload.urls")),
-    path('products/', include('products.urls')),  
+    path('accounts/', include('accounts.urls')),
+    path('products/', include('products.urls')),
+
+    # path('product/<str:product_name>/', product_detail, name='product_detail'),  
+    # path('admin/', admin.site.urls),
+    # path("__reload__/", include("django_browser_reload.urls")),
+    # path('seller_products/', include('products.urls')),  
     # path('reviews/', include('reviews.urls')),   
-    path('auth/', include('Authentication.urls')),        
+    # path('accounts/', include('accounts.urls')),  
+    path('cart/', include('cart.urls')),
+    path('', RedirectView.as_view(url='products/', permanent=True)),
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-

@@ -38,14 +38,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sites',
+    # 'django.contrib.sites',
     'products', 
-    'tailwind',
-    'theme',
-    'django_browser_reload',
-    'reviews',
-    'rest_framework',
-    'Authentication',
+    # 'tailwind',
+    # 'theme',
+    # 'django_browser_reload',
+    # 'reviews',
+    # 'rest_framework',
+    'accounts',
+    'cart',
 ]
 
 MIDDLEWARE = [
@@ -56,7 +57,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django_browser_reload.middleware.BrowserReloadMiddleware',
+    # 'django_browser_reload.middleware.BrowserReloadMiddleware',
 ]
 
 ROOT_URLCONF = 'shopsense.urls'
@@ -109,6 +110,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'accounts.auth_backends.CustomerBackend',  # Customer authentication backend
+    'accounts.auth_backends.SellerBackend',    # Seller authentication backend
+    'django.contrib.auth.backends.ModelBackend',  # Default backend
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
@@ -137,4 +143,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-AUTH_USER_MODEL = 'Authentication.User'
+
+AUTH_USER_MODEL = 'accounts.User'

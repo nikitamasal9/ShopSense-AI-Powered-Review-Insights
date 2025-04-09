@@ -1,43 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Item</title>
-    {% load static %}
-    <link href="{% static 'products/css/update_item.css' %}" rel="stylesheet">
-    <script>
-        function confirmCancel() {
-            return confirm('Are you sure you want to cancel?');
-        }
-    </script>
-</head>
-<body>
-    <div class="form-container">
-        <h1>Update Product</h1>
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <p>
-                <label for="name">Product Name</label>
-                <input type="text" id="name" name="name" value="{{ product.name }}" required>
-            </p>
-            <p>
-                <label for="description">Description</label>
-                <textarea id="description" name="description" rows="4" required>{{ product.description }}</textarea>
-            </p>
-            <p>
-                <label for="price">Price</label>
-                <input type="number" id="price" name="price" step="0.01" value="{{ product.price }}" required>
-            </p>
-            <p>
-                <label for="image">Image</label>
-                <input type="file" id="image" name="image">
-            </p>
-            <div class="form-actions">
-                <button type="submit">Update Product</button>
-                <a href="{% url 'product_list' %}" class="cancel" onclick="return confirmCancel();">Cancel</a>
-            </div>
-        </form>
-    </div>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}Update Product{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Update Product</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a href="{% url 'products:seller_products' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

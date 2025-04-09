@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-5">
+        {% if product.image %}
+        <img src="{{ product.image.url }}" class="img-fluid rounded" alt="{{ product.name }}">
+        {% else %}
+        <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 300px;">
+            <span class="text-muted">No image</span>
+        </div>
+        {% endif %}
+    </div>
+    <div class="col-md-7">
+        <h1>{{ product.name }}</h1>
+        <p class="lead text-muted">Seller: {{ product.seller.username }}</p>
+        <h2 class="text-primary">${{ product.price }}</h2>
+        <hr>
+        <h3>Description</h3>
+        <p>{{ product.description }}</p>
+        <div class="mt-4">
+            <!-- Button for adding to cart could go here in a future update -->
+            {% if user.is_authenticated and not user.is_seller %}
+            <form method="post" action="{% url 'cart:add_to_cart' product.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary">Add to Cart</button>
+            </form>
+            {% endif %}
+            {% for review in product.reviews.all %}
+                <div class="review">
+                    <strong>{{ review.user.username }}</strong> - {{ review.created_at|date:"F j, Y" }}
+                    <p>Rating: {{ review.rating }}/5</p>
+                    <p>{{ review.comment }}</p>
+                </div>
+                {% empty %}
+                <p>No reviews yet. Be the first to review this product!</p>
+                {% endfor %}
+            
+                {% if has_purchased %}
+            <a href="{% url 'products:add_review' product.id %}" class="btn btn-primary">Add Review</a>
+                {% endif %}
+           
+            <a href="{% url 'products:product_list' %}" class="btn btn-secondary">Back to Products</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
