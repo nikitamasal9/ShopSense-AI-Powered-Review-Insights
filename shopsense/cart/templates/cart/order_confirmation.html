@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Order Confirmation{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card border-success mb-3">
+        <div class="card-header bg-success text-white">
+            <h3>Order Confirmed!</h3>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Thank you for your order!</h5>
+            <p class="card-text">Your order has been placed successfully. We'll process it as soon as possible.</p>
+            
+            <div class="alert alert-light">
+                <h5>Order Details</h5>
+                <p><strong>Order Number:</strong> #{{ order.id }}</p>
+                <p><strong>Date:</strong> {{ order.created_at|date:"F j, Y" }}</p>
+                <p><strong>Total Amount:</strong> ${{ order.total_price }}</p>
+                <p><strong>Status:</strong> {{ order.get_status_display }}</p>
+            </div>
+            
+            <div class="alert alert-light">
+                <h5>Shipping Address</h5>
+                <p>{{ order.full_name }}</p>
+                <p>{{ order.address }}</p>
+                <p>{{ order.city }}, {{ order.state }} {{ order.zip_code }}</p>
+                <p>{{ order.email }}</p>
+            </div>
+            
+            <div class="mt-4">
+                <a href="{% url 'cart:my_orders' %}" class="btn btn-primary">View My Orders</a>
+                <a href="{% url 'products:product_list' %}" class="btn btn-secondary">Continue Shopping</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
