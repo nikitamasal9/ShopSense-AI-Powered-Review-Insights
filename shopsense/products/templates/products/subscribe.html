@@ -1,38 +1,23 @@
-\<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subscribe</title>
-    {% load static %}
-    <link href="{% static 'products/css/subscribe.css' %}" rel="stylesheet">
-</head>
-<body>
-    <div class="form-container">
-        <h1>Subscribe to Our Plan</h1>
-        <form method="post" action="{% url 'subscribe' %}">
-            {% csrf_token %}
-            <p>
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
-            </p>
-            <p>
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
-            </p>
-            <p>
-                <label for="payment">Payment Option</label>
-                <select id="payment" name="payment" required>
-                    <option value="credit_card">Credit Card</option>
-                    <option value="paypal">PayPal</option>
-                    <option value="bank_transfer">Bank Transfer</option>
-                </select>
-            </p>
-            <div class="form-actions">
-                <button type="submit">Subscribe</button>
-                <a href="{% url 'product_list' %}" class="cancel">Cancel</a>
-            </div>
-        </form>
+{% extends 'base.html' %}
+
+{% block title %}Subscribe{% endblock %}
+
+{% block content %}
+<div class="container text-center mt-5">
+    <h1>Subscribe to Access the Dashboard</h1>
+    <p>To access the seller dashboard, you need to subscribe by entering a valid voucher code.</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="voucher" class="form-label">Voucher Code</label>
+            <input type="text" id="voucher" name="voucher" class="form-control" placeholder="Enter voucher code" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Payment</button>
+    </form>
+
+    <div class="mt-4">
+        <p class="text-muted">Use the voucher code <strong>SUBSCRIBE123</strong> to complete the subscription.</p>
     </div>
-</body>
-</html>
+</div>
+{% endblock %}

@@ -23,7 +23,7 @@
                         <h6 class="card-subtitle mb-2 text-muted">${{ product.price }}</h6>
                         <small class="text-muted">By {{ product.seller.username }}</small>
                     </div>
-                    <a href="/products/{{product.id}}" class="btn btn-primary mt-2">View Details</a>
+                    <a href="{% url 'products:product_detail' product.id %}" class="btn btn-primary mt-2">View Details</a>
                 </div>
             </div>
         </div>
