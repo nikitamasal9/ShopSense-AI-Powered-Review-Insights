@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}My Orders{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>My Orders</h1>
+    
+    {% if orders %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Order #</th>
+                        <th>Date</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <td>{{ order.id }}</td>
+                        <td>{{ order.created_at|date:"M d, Y" }}</td>
+                        <td>${{ order.total_price }}</td>
+                        <td>
+                            {% if order.status == 'pending' %}
+                            <span class="badge bg-warning">{{ order.get_status_display }}</span>
+                            {% elif order.status == 'processing' %}
+                            <span class="badge bg-info">{{ order.get_status_display }}</span>
+                            {% elif order.status == 'shipped' %}
+                            <span class="badge bg-primary">{{ order.get_status_display }}</span>
+                            {% elif order.status == 'delivered' %}
+                            <span class="badge bg-success">{{ order.get_status_display }}</span>
+                            {% elif order.status == 'canceled' %}
+                            <span class="badge bg-danger">{{ order.get_status_display }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'cart:order_detail' order.id %}" class="btn btn-sm btn-outline-primary">View Details</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            You haven't placed any orders yet. <a href="{% url 'products:product_list' %}">Start shopping</a>.
+        </div>
+    {% endif %}
+    
+    <div class="mt-4">
+        <a href="{% url 'products:product_list' %}" class="btn btn-primary">Continue Shopping</a>
+    </div>
+</div>
+{% endblock %}
