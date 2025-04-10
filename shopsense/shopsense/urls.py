@@ -23,9 +23,11 @@ from django.conf.urls.static import static
 # from .views import home, product_detail, landing_page
 from django.views.generic import RedirectView
 
+from shopsense.views import home
+
 urlpatterns = [
     # path('', landing_page, name='landing_page'),
-    # path('', home, name='home'),
+    path('home', home, name='home'),
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
     path('products/', include('products.urls')),

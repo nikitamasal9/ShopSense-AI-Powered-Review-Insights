@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     # 'django_browser_reload',
     # 'reviews',
     # 'rest_framework',
-    # 'accounts',
+    'accounts',
     'cart',
 ]
 
@@ -111,8 +111,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTHENTICATION_BACKENDS = [
-    # 'accounts.auth_backends.CustomerBackend',  # Customer authentication backend
-    # 'accounts.auth_backends.SellerBackend',    # Seller authentication backend
+    'accounts.auth_backends.CustomerBackend',  # Customer authentication backend
+    'accounts.auth_backends.SellerBackend',    # Seller authentication backend
     'django.contrib.auth.backends.ModelBackend',  # Default backend
 ]
 
@@ -133,8 +133,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
+    BASE_DIR / "Theme"/"static",
 ]
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -144,4 +145,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# AUTH_USER_MODEL = 'accounts.User'
+AUTH_USER_MODEL = 'accounts.User'

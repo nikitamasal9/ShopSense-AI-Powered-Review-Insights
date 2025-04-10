@@ -1,6 +1,7 @@
 # shopsense/views.py
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+
 from products.models import Product
 
 demo_products = [
@@ -49,12 +50,7 @@ def product_detail(request, product_name):
     return render(request, 'product_detail.html', {'product': selected_product, 'related_products': related_products})
 
 
-    # def landing_page(request):
-    #     # if not request.user.is_authenticated:
-    #     #     return redirect('/auth/signin')
-    #     return render(request, 'landing.html')
-
-def customer_dashboard(request):
-    return render(request, 'customer_dashboard.html')
-def seller_dashboard(request):
-    return render(request, 'seller_dashboard.html')
+def landing_page(request):
+    # if not request.user.is_authenticated:
+    #     return redirect('/auth/signin')
+    return render(request, 'landing.html')

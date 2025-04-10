@@ -42,7 +42,7 @@ def signup_view(request):
             user = form.save()
             user.backend = 'django.contrib.auth.backends.ModelBackend'
             login(request, user)
-            return redirect('products:product_list')
+            return redirect('home')
     else:
         form = UserCreationForm()
     return render(request, 'accounts/signup.html', {'form': form})
@@ -63,7 +63,7 @@ def login_view(request):
                 if user.is_seller():
                     return redirect('products:seller_products')  # Redirect sellers to "My Products"
                 else:
-                    return redirect('products:product_list')  # Redirect customers to "Products"
+                    return redirect('home')  # Redirect customers to "Homepage"
                 # return redirect('products:product_list')
             else:
                 messages.error(request, "Invalid username or password.")
@@ -75,7 +75,7 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     messages.info(request, "You have successfully logged out.")
-    return redirect('products:product_list')
+    return redirect('home')
 
 
 def customer_login(request):
