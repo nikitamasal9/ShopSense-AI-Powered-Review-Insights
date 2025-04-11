@@ -1,57 +1,127 @@
-<!-- filepath: c:\Users\dell\Desktop\test-project\django_ecommerce\products\templates\products\seller_products.html -->
 {% extends 'base.html' %}
 
 {% block title %}My Products{% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1>My Products</h1>
-    <a href="{% url 'products:add_product' %}" class="btn btn-primary">Add New Product</a>
-</div>
+<div class="container py-5">
+    <!-- Header Section -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="fw-bold text-primary">My Products</h1>
+        <a href="{% url 'products:add_product' %}" class="btn btn-success btn-lg shadow-sm">
+            <i class="bi bi-plus-circle me-2"></i>Add New Product
+        </a>
+    </div>
 
-<!-- Show subscription option if not subscribed -->
-{% if not user.subscribed %}
-<div class="alert alert-warning">
-    <p>You need to subscribe to access the dashboard.</p>
-    <a href="{% url 'products:subscribe' %}" class="btn btn-secondary">Subscribe Now</a>
-</div>
-{% endif %}
+    <!-- Subscription Alert -->
+    {% if not user.subscribed %}
+    <div class="alert alert-warning d-flex align-items-center shadow-sm">
+        <div>
+            <p class="mb-1 text-dark">
+                <strong>Subscribe Now:</strong> Unlock advanced features like the dashboard with our subscription plan.
+            </p>
+            <a href="{% url 'products:subscribe' %}" class="btn btn-warning btn-sm text-dark fw-bold">Subscribe Now</a>
+        </div>
+    </div>
+    {% endif %}
 
-<!-- Show View Dashboard button if subscribed -->
-{% if user.subscribed %}
-<div class="mt-4">
-    <a href="http://localhost/report/customer" target="_blank" class="btn btn-primary">View Dashboard</a>
-</div>
-{% endif %}
+    <!-- Dashboard Button -->
+    {% if user.subscribed %}
+    <div class="mt-4">
+        <a href="http://localhost/report/customer" target="_blank" class="btn btn-primary btn-lg shadow-sm">
+            <i class="bi bi-bar-chart-line me-2"></i>View Dashboard
+        </a>
+    </div>
+    {% endif %}
 
-<div class="row">
-    {% if products %}
-        {% for product in products %}
-        <div class="col-md-4 mb-4">
-            <div class="card h-100">
-                {% if product.image %}
-                <img src="{{ product.image.url }}" class="card-img-top product-img" alt="{{ product.name }}">
-                {% else %}
-                <div class="card-img-top bg-light d-flex align-items-center justify-content-center product-img">
-                    <span class="text-muted">No image</span>
-                </div>
-                {% endif %}
-                <div class="card-body">
-                    <h5 class="card-title">{{ product.name }}</h5>
-                    <p class="card-text">{{ product.description|truncatewords:20 }}</p>
-                    <h6 class="card-subtitle mb-2 text-muted">${{ product.price }}</h6>
-                    <a href="{% url 'products:product_detail' product.id %}" class="btn btn-primary mt-2">View Details</a>
-                    <div class="mt-3">
-                        <a href="{% url 'products:update_product' product.id %}" class="btn btn-warning btn-sm">Update</a>
+    <!-- Product Cards Section -->
+    <div class="row mt-5">
+        {% if products %}
+            {% for product in products %}
+            <div class="col-md-4 col-sm-6 mb-4">
+                <div class="card h-100 shadow-sm product-card border-0">
+                    <!-- Product Image -->
+                    {% if product.image %}
+                    <img src="{{ product.image.url }}" class="card-img-top product-img" alt="{{ product.name }}">
+                    {% else %}
+                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center product-img">
+                        <span class="text-muted">No image available</span>
+                    </div>
+                    {% endif %}
+                    <!-- Product Details -->
+                    <div class="card-body">
+                        <h5 class="card-title text-dark fw-semibold">{{ product.name }}</h5>
+                        <p class="card-text text-muted small">{{ product.description|truncatewords:20 }}</p>
+                        <h6 class="card-subtitle text-success fw-bold">${{ product.price }}</h6>
+                        <a href="{% url 'products:product_detail' product.id %}" class="btn btn-primary btn-sm mt-3">View Details</a>
                     </div>
                 </div>
             </div>
-        </div>
-        {% endfor %}
-    {% else %}
-        <div class="col-12">
-            <p class="alert alert-info">You haven't added any products yet.</p>
-        </div>
-    {% endif %}
+            {% endfor %}
+        {% else %}
+            <div class="col-12">
+                <div class="alert alert-info text-center shadow-sm">
+                    <p class="mb-0">You haven't added any products yet. Click "Add New Product" to get started.</p>
+                </div>
+            </div>
+        {% endif %}
+    </div>
 </div>
+
+<!-- Custom Styling for the Seller Products Page -->
+<style>
+    .product-img {
+        height: 200px;
+        object-fit: cover;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .product-card {
+        transition: transform 0.3s, box-shadow 0.3s;
+        border-radius: 10px;
+    }
+
+    .product-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+
+    .btn-success:hover {
+        background-color: #218838;
+        border-color: #1e7e34;
+    }
+
+    .btn-warning {
+        background-color: #ffc107;
+        border-color: #ffc107;
+    }
+
+    .btn-warning:hover {
+        background-color: #e0a800;
+        border-color: #d39e00;
+    }
+
+    .alert-warning {
+        background-color: #fff3cd;
+        border: 1px solid #ffeeba;
+    }
+
+    .alert-info {
+        background-color: #f8f9fa;
+        border: 1px solid #dbe5f1;
+    }
+
+    .card-title {
+        font-size: 1.2rem;
+    }
+
+    .btn-primary {
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+    }
+</style>
 {% endblock %}

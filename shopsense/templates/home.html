@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
-
-{% block title %}All Products{% endblock %}
+{% load static %}
+{% block title %}Home{% endblock %}
 
 {% block content %}
 <!-- Welcome Section -->
 <div class="container py-5">
     <div class="text-center p-5 bg-white shadow-lg rounded-3">
         <h1 class="display-4 fw-bold text-dark mb-4">
-            Welcome to <span class="text-primary">ShopSense</span>
+            Welcome to <span class="text-primary">E-commerce</span>
         </h1>
         <p class="lead text-muted mb-5">
             Discover the best products curated just for you.
@@ -22,36 +22,86 @@
 
 <!-- Product List Section -->
 <div class="container py-5">
-    <h1 class="text-center fw-bold mb-5">Browse Products</h1>
+    <h1 class="text-left fw-bold mb-5">Browse Products</h1>
     <div class="row">
-        {% if products %}
-            {% for product in products %}
-            <div class="col-md-4 mb-4">
-                <div class="card h-100 shadow-sm border-0">
-                    {% if product.image %}
-                    <img src="{{ product.image.url }}" class="card-img-top product-img" alt="{{ product.name }}">
-                    {% else %}
-                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center product-img">
-                        <span class="text-muted">No image</span>
+        {% for product in products|slice:":6" %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+                {% if product.image %}
+                <img src="{{ product.image.url }}" class="card-img-top product-img" alt="{{ product.name }}">
+                {% else %}
+                <div class="card-img-top bg-light d-flex align-items-center justify-content-center product-img">
+                    <span class="text-muted">No image</span>
+                </div>
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title fw-semibold">{{ product.name }}</h5>
+                    <p class="card-text text-muted">{{ product.description|truncatewords:20 }}</p>
+                    <div class="d-flex justify-content-between">
+                        <h6 class="card-subtitle mb-2 text-muted">${{ product.price }}</h6>
+                        <small class="text-muted">By {{ product.seller.username }}</small>
                     </div>
-                    {% endif %}
-                    <div class="card-body">
-                        <h5 class="card-title fw-semibold">{{ product.name }}</h5>
-                        <p class="card-text text-muted">{{ product.description|truncatewords:20 }}</p>
-                        <div class="d-flex justify-content-between">
-                            <h6 class="card-subtitle mb-2 text-muted">${{ product.price }}</h6>
-                            <small class="text-muted">By {{ product.seller.username }}</small>
-                        </div>
-                        <a href="{% url 'products:product_detail' product.id %}" class="btn btn-primary mt-2">View Details</a>
-                    </div>
+                    <a href="{% url 'products:product_detail' product.id %}" class="btn btn-primary mt-2">View Details</a>
                 </div>
             </div>
-            {% endfor %}
-        {% else %}
-            <div class="col-12">
-                <p class="text-muted text-center py-5">No products available.</p>
-            </div>
-        {% endif %}
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <p class="text-muted text-center py-5">No products available.</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination Section -->
+    {% if products|length > 6 %}
+    <div class="text-center mt-5">
+        <a href="{% url 'products:product_list' %}" class="btn btn-outline-primary btn-lg px-4 py-2">See More</a>
+    </div>
+    {% endif %}
+</div>
+
+<!-- About Us Section -->
+<div class="container py-5">
+    <h1 class="text-left fw-bold mb-5">About Us</h1>
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <p class="text-muted">
+                At <span class="text-primary">Shopsense</span>, we aim to provide an unparalleled shopping experience.<br>
+                Our platform connects buyers and sellers in a seamless and secure way, ensuring the best products and services for everyone.<br> Whether you're here to shop or sell, our platform is tailored to meet all your needs.
+
+                <br><br>
+
+                As a platform, we empower merchants and customers by bridging the gap between innovation and e-commerce. For buyers, we ensure a wide variety of high-quality products, intuitive search functionality, and a smooth checkout experience. Our focus on customer satisfaction drives us to continuously improve and adapt to meet the ever-changing demands of the digital marketplace.
+
+                <br><br>
+
+                For subscribed merchants, we offer unique advantages such as our <span class="fw-bold text-primary">Smart Review System</span>. This innovative tool uses AI-powered analytics to provide actionable insights from customer feedback, helping merchants refine their products and services. With Shopsense, merchants gain an edge in understanding their audience and staying ahead in a competitive market.
+
+                <br><br>
+
+                Whether you're a first-time visitor or a seasoned merchant, <span class="text-primary">Shopsense</span> is here to elevate your e-commerce journey. Join us today and become a part of a thriving online marketplace where innovation meets opportunity. Let us help you discover the future of online shopping—tailored just for you.
+            </p>
+        </div>
+        <div class="col-md-6 mb-4">
+            <img src="{% static 'images/logo1.jpg' %}" class="img-fluid rounded shadow-sm" alt="About Us">
+        </div>
     </div>
 </div>
+
+<!-- Footer Section -->
+<footer class="bg-dark text-white py-4">
+    <div class="container text-center">
+        <p class="mb-0">&copy; 2025 Shopsense. All rights reserved.</p>
+        <p class="small mb-0">Providing the best shopping experience since our inception.</p>
+    </div>
+</footer>
+
+<!-- Custom Styling for Product Images -->
+<style>
+    .product-img {
+        height: 200px;
+        object-fit: cover;
+        border-radius: 5px 5px 0 0;
+    }
+</style>
 {% endblock %}

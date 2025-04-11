@@ -42,7 +42,13 @@ def signup_view(request):
             user = form.save()
             user.backend = 'django.contrib.auth.backends.ModelBackend'
             login(request, user)
+            messages.success(request, "Your account has been created successfully.")
             return redirect('home')
+        else:
+            # Add error messages to indicate specific issues
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field.capitalize()}: {error}")
     else:
         form = UserCreationForm()
     return render(request, 'accounts/signup.html', {'form': form})
@@ -61,9 +67,9 @@ def login_view(request):
                 login(request, user)
                 messages.info(request, f"You are now logged in as {username}")
                 if user.is_seller():
-                    return redirect('products:seller_products')  # Redirect sellers to "My Products"
+                    return redirect('/home')  # Redirect sellers to "My Products"
                 else:
-                    return redirect('home')  # Redirect customers to "Homepage"
+                    return redirect('/home')  # Redirect customers to "Homepage"
                 # return redirect('products:product_list')
             else:
                 messages.error(request, "Invalid username or password.")
@@ -85,7 +91,7 @@ def customer_login(request):
         user = authenticate(request, username=username, password=password, backend='accounts.auth_backends.CustomerBackend')
         if user is not None:
             login(request, user)
-            return redirect('products:product_list')  # Redirect to customer dashboard
+            return redirect('home')  # Redirect to customer dashboard
         else:
             messages.error(request, "Invalid credentials or not a customer.")
     return render(request, 'accounts/customer_login.html')

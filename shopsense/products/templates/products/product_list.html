@@ -3,38 +3,89 @@
 {% block title %}All Products{% endblock %}
 
 {% block content %}
-<h1>Browse Products</h1>
-{% if query %}
-    <p>Showing results for "<strong>{{ query }}</strong>"</p>
-{% endif %}
-<div class="row">
-    {% if products %}
-        {% for product in products %}
-        <div class="col-md-4 mb-4">
-            <div class="card h-100">
-                {% if product.image %}
-                <img src="{{ product.image.url }}" class="card-img-top product-img" alt="{{ product.name }}">
-                {% else %}
-                <div class="card-img-top bg-light d-flex align-items-center justify-content-center product-img">
-                    <span class="text-muted">No image</span>
-                </div>
-                {% endif %}
-                <div class="card-body">
-                    <h5 class="card-title">{{ product.name }}</h5>
-                    <p class="card-text">{{ product.description|truncatewords:20 }}</p>
-                    <div class="d-flex justify-content-between">
-                        <h6 class="card-subtitle mb-2 text-muted">${{ product.price }}</h6>
-                        <small class="text-muted">By {{ product.seller.username }}</small>
+<div class="container py-5">
+    <!-- Browse Products Section -->
+    <div class="text-center mb-5">
+        <h1 class="fw-bold text-primary">Browse Our Products</h1>
+        {% if query %}
+        <p class="text-muted">Showing results for "<strong>{{ query }}</strong>"</p>
+        {% endif %}
+        <p class="text-muted">
+            Explore our collection of high-quality products carefully curated for your needs.
+        </p>
+    </div>
+
+    <div class="row">
+        {% if products %}
+            {% for product in products %}
+            <div class="col-md-4 col-sm-6 mb-4">
+                <div class="card h-100 shadow-lg border-0 product-card">
+                    <!-- Product Image -->
+                    {% if product.image %}
+                    <img src="{{ product.image.url }}" class="card-img-top product-img" alt="{{ product.name }}">
+                    {% else %}
+                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center product-img">
+                        <span class="text-muted">No image available</span>
                     </div>
-                    <a href="{% url 'products:product_detail' product.id %}" class="btn btn-primary mt-2">View Details</a>
+                    {% endif %}
+                    <div class="card-body">
+                        <!-- Product Name -->
+                        <h5 class="card-title text-dark fw-semibold">{{ product.name }}</h5>
+                        <!-- Product Description -->
+                        <p class="card-text text-muted small">{{ product.description|truncatewords:20 }}</p>
+                        <!-- Price and Seller -->
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h6 class="card-subtitle text-success fw-bold">${{ product.price }}</h6>
+                            <small class="text-muted">By {{ product.seller.username }}</small>
+                        </div>
+                        <!-- View Details Button -->
+                        <a href="{% url 'products:product_detail' product.id %}" class="btn btn-primary btn-sm mt-3">View Details</a>
+                    </div>
                 </div>
             </div>
-        </div>
-        {% endfor %}
-    {% else %}
-        <div class="col-12">
-            <p class="alert alert-info">No products found matching your search.</p>
-        </div>
-    {% endif %}
+            {% endfor %}
+        {% else %}
+            <div class="col-12">
+                <div class="alert alert-info text-center">
+                    <p class="mb-0">No products found matching your search.</p>
+                </div>
+            </div>
+        {% endif %}
+    </div>
 </div>
+
+<!-- Custom Styling for the Product Page -->
+<style>
+    .product-img {
+        height: 200px;
+        object-fit: cover;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    .product-card {
+        transition: transform 0.3s, box-shadow 0.3s;
+        border-radius: 10px;
+    }
+
+    .product-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-title {
+        font-size: 1.2rem;
+    }
+
+    .btn-primary {
+        font-size: 0.9rem;
+        padding: 0.5rem 1.2rem;
+    }
+
+    .alert-info {
+        background-color: #f6f9fc;
+        color: #0d6efd;
+        border: 1px solid #dbe5f1;
+    }
+</style>
 {% endblock %}
