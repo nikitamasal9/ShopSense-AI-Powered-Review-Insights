@@ -6,7 +6,7 @@ from django import forms
 from .models import Product, ProductReview
 from cart.models import Order, OrderItem
 from django.urls import reverse
-
+from django.db.models import Q
 
 # def customer_reviews(request):
 #     if request.method == 'POST':
@@ -134,8 +134,18 @@ class ProductForm(forms.ModelForm):
         self.fields['image'].widget.attrs.update({'class': 'form-control'})
 
 def product_list(request):
+    query = request.GET.get('q')
     products = Product.objects.all()
-    return render(request, 'products/product_list.html', {'products': products})
+    if query:
+        products = products.filter(
+            Q(name__icontains=query) | 
+            Q(description__icontains=query) | 
+            Q(seller__username__icontains=query))
+    context = {
+        'products': products,
+        'query': query,
+    }
+    return render(request, 'products/product_list.html', context)
 
 def product_detail(request, pk):
     product = get_object_or_404(Product, id=pk)

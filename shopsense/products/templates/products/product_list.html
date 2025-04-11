@@ -4,6 +4,9 @@
 
 {% block content %}
 <h1>Browse Products</h1>
+{% if query %}
+    <p>Showing results for "<strong>{{ query }}</strong>"</p>
+{% endif %}
 <div class="row">
     {% if products %}
         {% for product in products %}
@@ -30,7 +33,7 @@
         {% endfor %}
     {% else %}
         <div class="col-12">
-            <p class="alert alert-info">No products available.</p>
+            <p class="alert alert-info">No products found matching your search.</p>
         </div>
     {% endif %}
 </div>
