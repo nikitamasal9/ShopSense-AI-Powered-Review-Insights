@@ -26,7 +26,7 @@ from django.views.generic import RedirectView
 from shopsense.views import home
 
 urlpatterns = [
-    # path('', landing_page, name='landing_page'),
+    path('', home, name='landing_page'),
     path('home', home, name='home'),
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
@@ -39,7 +39,7 @@ urlpatterns = [
     # path('reviews/', include('reviews.urls')),   
     # path('accounts/', include('accounts.urls')),  
     path('cart/', include('cart.urls')),
-    path('', RedirectView.as_view(url='products/', permanent=True)),
+    # path('', RedirectView.as_view(url='products/', permanent=True)),
 ]
 
 if settings.DEBUG:
