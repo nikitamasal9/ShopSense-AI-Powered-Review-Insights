@@ -4,7 +4,6 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from transformers import pipeline
 
-# Load emotion and intent models
 emotion_pipeline = pipeline("text-classification", model="SamLowe/roberta-base-go_emotions", top_k=1)
 intent_pipeline = pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
 
