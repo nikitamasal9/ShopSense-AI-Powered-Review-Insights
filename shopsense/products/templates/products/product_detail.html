@@ -28,15 +28,7 @@
                 <button type="submit" class="btn btn-primary">Add to Cart</button>
             </form>
             {% endif %}
-            {% for review in product.reviews.all %}
-                <div class="review">
-                    <strong>{{ review.user.username }}</strong> - {{ review.created_at|date:"F j, Y" }}
-                    <p>Rating: {{ review.rating }}/5</p>
-                    <p>{{ review.comment }}</p>
-                </div>
-                {% empty %}
-                <p>No reviews yet. Be the first to review this product!</p>
-                {% endfor %}
+            
             
                 {% if has_purchased %}
             <a href="{% url 'products:add_review' product.id %}" class="btn btn-primary">Add Review</a>
@@ -44,6 +36,35 @@
            
             <a href="{% url 'products:product_list' %}" class="btn btn-secondary">Back to Products</a>
         </div>
+
+        <div class="mt-5">
+            <h3>Reviews</h3>
+        {% for review in product.reviews.all %}
+                <div class="review">
+                    <strong>{{ review.user.username }}</strong> - {{ review.created_at|date:"F j, Y" }}
+                    <p class="mb-1">
+                        Rating:
+                        {% for i in "12345" %}
+                            {% if forloop.counter <= review.rating %}
+                                <span class="text-warning">&#9733;</span>  {# Filled star ★ #}
+                            {% else %}
+                                <span class="text-muted">&#9734;</span>  {# Empty star ☆ #}
+                            {% endif %}
+                        {% endfor %}
+                    </p>
+                    <p>{{ review.comment }}</p>
+                </div>
+                {% empty %}
+                <p>No reviews yet. Be the first to review this product!</p>
+                {% endfor %}
+
+
     </div>
 </div>
 {% endblock %}
+
+<style>
+    .star-rating {
+        font-size: 1.2rem;
+    }
+</style>
