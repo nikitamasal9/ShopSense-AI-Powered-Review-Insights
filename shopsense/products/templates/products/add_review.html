@@ -1,28 +1,105 @@
-<!-- filepath: c:\Users\dell\Desktop\test-project\django_ecommerce\products\templates\products\add_review.html -->
 {% extends 'base.html' %}
 
 {% block title %}Add Review{% endblock %}
 
 {% block content %}
-<div class="container">
-    <h1>Review {{ product.name }}</h1>
-    <form method="post">
-        {% csrf_token %}
-        <div class="mb-3">
-            <label for="comment" class="form-label">Comment</label>
-            <textarea id="comment" name="comment" class="form-control" rows="4" required></textarea>
+<div class="container py-5">
+    <!-- Header Section -->
+    <div class="text-center mb-5">
+        <h1 class="display-4 text-primary">Share Your Experience</h1>
+        <p class="text-muted">Tell us what you think about <strong>{{ product.name }}</strong>. Your feedback helps us improve!</p>
+    </div>
+
+    <!-- Review Form Section -->
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0 rounded-3">
+                <div class="card-body p-4">
+                    <form method="post">
+                        {% csrf_token %}
+                        <!-- Comment Section -->
+                        <div class="mb-4">
+                            <label for="comment" class="form-label fw-bold">Your Comments</label>
+                            <textarea id="comment" name="comment" class="form-control form-control-lg" rows="4" placeholder="Write your thoughts about the product..." required></textarea>
+                        </div>
+                        
+                        <!-- Rating Section -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Your Rating</label>
+                            <div class="d-flex gap-3 align-items-center">
+                                <div>
+                                    <input type="radio" id="rating1" name="rating" value="1" class="form-check-input" required>
+                                    <label for="rating1" class="form-check-label">1 (Poor)</label>
+                                </div>
+                                <div>
+                                    <input type="radio" id="rating2" name="rating" value="2" class="form-check-input">
+                                    <label for="rating2" class="form-check-label">2 (Fair)</label>
+                                </div>
+                                <div>
+                                    <input type="radio" id="rating3" name="rating" value="3" class="form-check-input">
+                                    <label for="rating3" class="form-check-label">3 (Good)</label>
+                                </div>
+                                <div>
+                                    <input type="radio" id="rating4" name="rating" value="4" class="form-check-input">
+                                    <label for="rating4" class="form-check-label">4 (Very Good)</label>
+                                </div>
+                                <div>
+                                    <input type="radio" id="rating5" name="rating" value="5" class="form-check-input">
+                                    <label for="rating5" class="form-check-label">5 (Excellent)</label>
+                                </div>
+                            </div>
+                            <small class="text-muted d-block mt-2">Select one rating that best describes your experience.</small>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="mt-4 text-center">
+                            <button type="submit" class="btn btn-primary btn-lg px-5">
+                                <i class="bi bi-check-circle me-2"></i>Submit Review
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="mb-3">
-            <label for="rating" class="form-label">Rating</label>
-            <select id="rating" name="rating" class="form-select">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit Review</button>
-    </form>
+    </div>
 </div>
+
+<!-- Custom CSS -->
+<style>
+    /* Card Styling */
+    .card {
+        border-radius: 15px;
+        border: none;
+    }
+
+    .form-check-input {
+        cursor: pointer;
+        transform: scale(1.2); /* Slightly enlarge radio buttons */
+    }
+
+    .form-check-label {
+        font-size: 1.1rem;
+        margin-left: 0.3rem;
+    }
+
+    .gap-3 > div {
+        display: flex;
+        align-items: center;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+    }
+
+    .form-control:focus {
+        border-color: #80bdff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+</style>
 {% endblock %}

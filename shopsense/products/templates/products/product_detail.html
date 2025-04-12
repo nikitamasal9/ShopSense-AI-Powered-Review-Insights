@@ -25,15 +25,16 @@
             {% if user.is_authenticated and not user.is_seller %}
             <form method="post" action="{% url 'cart:add_to_cart' product.id %}">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-primary">Add to Cart</button>
+                <button type="submit" class="btn btn-primary">Add to Cart</button> <br>
             </form>
             {% endif %}
             
-            
+            <br>
                 {% if has_purchased %}
             <a href="{% url 'products:add_review' product.id %}" class="btn btn-primary">Add Review</a>
                 {% endif %}
-           
+           <br>
+           <br>
             <a href="{% url 'products:product_list' %}" class="btn btn-secondary">Back to Products</a>
         </div>
 
