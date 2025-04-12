@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from django import forms
-from .models import Product, ProductReview
+from .models import Product, ProductReview, ProductClick
 from cart.models import Order, OrderItem
 from django.urls import reverse
 from django.db.models import Q
@@ -158,6 +158,15 @@ def product_detail(request, pk):
             product=product,
             order__status='delivered'
         ).exists()
+
+        if request.user.is_customer():
+            product_click, created = ProductClick.objects.get_or_create(
+                buyer=request.user,
+                seller=product.seller,
+                product=product
+            )
+            product_click.count += 1  # Increment the click count
+            product_click.save()
 
     return render(request, 'products/product_detail.html', {
         'product': product,

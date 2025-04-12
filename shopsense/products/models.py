@@ -14,8 +14,14 @@ class Product(models.Model):
     def __str__(self):
         return self.name
     
-    # filepath: c:\Users\dell\Desktop\test-project\django_ecommerce\products\models.py
-from django.conf import settings  # Import settings to reference AUTH_USER_MODEL
+class ProductClick(models.Model):
+    buyer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='product_clicks')
+    seller = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='seller_clicks')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='clicks')
+    count = models.PositiveIntegerField(default=0)  # Number of clicks
+
+    def __str__(self):
+        return f"Buyer {self.buyer.username} clicked on {self.product.name} ({self.count} times)"
 
 class ProductReview(models.Model):
     product = models.ForeignKey('Product', on_delete=models.CASCADE, related_name='reviews')
