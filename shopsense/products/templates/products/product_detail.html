@@ -3,69 +3,109 @@
 {% block title %}{{ product.name }}{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-5">
-        {% if product.image %}
-        <img src="{{ product.image.url }}" class="img-fluid rounded" alt="{{ product.name }}">
-        {% else %}
-        <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 300px;">
-            <span class="text-muted">No image</span>
-        </div>
-        {% endif %}
-    </div>
-    <div class="col-md-7">
-        <h1>{{ product.name }}</h1>
-        <p class="lead text-muted">Seller: {{ product.seller.username }}</p>
-        <h2 class="text-primary">${{ product.price }}</h2>
-        <hr>
-        <h3>Description</h3>
-        <p>{{ product.description }}</p>
-        <div class="mt-4">
-            <!-- Button for adding to cart could go here in a future update -->
-            {% if user.is_authenticated and not user.is_seller %}
-            <form method="post" action="{% url 'cart:add_to_cart' product.id %}">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-primary">Add to Cart</button> <br>
-            </form>
+<div class="container py-5">
+    <div class="row">
+        <!-- Product Image Section -->
+        <div class="col-md-5">
+            {% if product.image %}
+            <img src="{{ product.image.url }}" class="img-fluid rounded shadow-sm" alt="{{ product.name }}">
+            {% else %}
+            <div class="bg-light rounded d-flex align-items-center justify-content-center shadow-sm" style="height: 300px;">
+                <span class="text-muted">No image</span>
+            </div>
             {% endif %}
-            
-            <br>
-                {% if has_purchased %}
-            <a href="{% url 'products:add_review' product.id %}" class="btn btn-primary">Add Review</a>
-                {% endif %}
-           <br>
-           <br>
-            <a href="{% url 'products:product_list' %}" class="btn btn-secondary">Back to Products</a>
         </div>
 
-        <div class="mt-5">
-            <h3>Reviews</h3>
-        {% for review in product.reviews.all %}
-                <div class="review">
-                    <strong>{{ review.user.username }}</strong> - {{ review.created_at|date:"F j, Y" }}
-                    <p class="mb-1">
-                        Rating:
-                        {% for i in "12345" %}
-                            {% if forloop.counter <= review.rating %}
-                                <span class="text-warning">&#9733;</span>  {# Filled star ★ #}
-                            {% else %}
-                                <span class="text-muted">&#9734;</span>  {# Empty star ☆ #}
-                            {% endif %}
-                        {% endfor %}
-                    </p>
-                    <p>{{ review.comment }}</p>
-                </div>
-                {% empty %}
-                <p>No reviews yet. Be the first to review this product!</p>
-                {% endfor %}
+        <!-- Product Details Section -->
+        <div class="col-md-7">
+            <h1 class="fw-bold">{{ product.name }}</h1>
+            <p class="lead text-muted"><i class="bi bi-person-circle"></i> Seller: <strong>{{ product.seller.username }}</strong></p>
+            <h2 class="text-primary fw-bold"><i class="bi bi-currency-dollar"></i> ${{ product.price }}</h2>
+            <hr class="my-4">
+            <h3 class="fw-bold"><i class="bi bi-info-circle"></i> Description</h3>
+            <p class="text-muted">{{ product.description }}</p>
 
+            <!-- Action Buttons -->
+            <div class="mt-4">
+                {% if user.is_authenticated and not user.is_seller %}
+                <form method="post" action="{% url 'cart:add_to_cart' product.id %}" class="mb-3">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="bi bi-cart-plus"></i> Add to Cart
+                    </button>
+                </form>
+                {% endif %}
 
+                {% if has_purchased %}
+                <a href="{% url 'products:add_review' product.id %}" class="btn btn-primary btn-lg mb-3">
+                    <i class="bi bi-pencil-square"></i> Add Review
+                </a>
+                {% endif %}
+                <br>
+
+                <a href="{% url 'products:product_list' %}" class="btn btn-secondary btn-lg">
+                    <i class="bi bi-arrow-left-circle"></i> Back to Products
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reviews Section -->
+    <div class="mt-5">
+        <h3 class="fw-bold"><i class="bi bi-star"></i> Reviews</h3>
+        <div class="mt-4">
+            {% for review in product.reviews.all %}
+            <div class="review mb-4 p-3 border rounded shadow-sm">
+                <strong class="d-block mb-2"><i class="bi bi-person-fill"></i> {{ review.user.username }}</strong>
+                <span class="text-muted small">{{ review.created_at|date:"F j, Y" }}</span>
+                <p class="mb-1 star-rating">
+                    Rating:
+                    {% for i in "12345" %}
+                        {% if forloop.counter <= review.rating %}
+                            <span class="text-warning">&#9733;</span>  {# Filled star ★ #}
+                        {% else %}
+                            <span class="text-muted">&#9734;</span>  {# Empty star ☆ #}
+                        {% endif %}
+                    {% endfor %}
+                </p>
+                <p class="text-muted">{{ review.comment }}</p>
+            </div>
+            {% empty %}
+            <p class="text-muted">No reviews yet. Be the first to review this product!</p>
+            {% endfor %}
+        </div>
     </div>
 </div>
 {% endblock %}
 
+<!-- Custom CSS -->
 <style>
+    .container {
+        max-width: 900px;
+    }
+
+    .btn-lg {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+    }
+
     .star-rating {
         font-size: 1.2rem;
+    }
+
+    .review {
+        background-color: #f8f9fa;
+    }
+
+    hr {
+        border-top: 1px solid #ddd;
+    }
+
+    h1, h2, h3 {
+        line-height: 1.5;
+    }
+
+    .shadow-sm {
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
     }
 </style>
