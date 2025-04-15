@@ -83,7 +83,7 @@
                     </li>
                     <li class="nav-item">
                         {% if user.subscribed %}
-                        <a href="http://desktop-77vpnbl:8088/Reports/powerbi/tiles_review?filter=seller%2Fseller_id%20eq%20%271%27" target="_blank" class="nav-link">View Dashboard</a>
+                        <a href="http://desktop-77vpnbl:8088/Reports/powerbi/FinalReport?filter=accounts_user/id eq {{ user.id }}&rs:Embed=True" target="_blank" class="nav-link">View Dashboard</a>
                         {% else %}
                         <a id="subscribePrompt" class="nav-link">View Dashboard</a>
                         {% endif %}
