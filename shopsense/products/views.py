@@ -131,13 +131,36 @@ def add_product(request):
     
     return render(request, 'products/add_product.html', {'form': form})
 
+# @login_required
+# def seller_products(request):
+#     if not request.user.is_seller():
+#         return HttpResponseForbidden("Only sellers can view this page")
+    
+#     products = Product.objects.filter(seller=request.user)
+#     return render(request, 'products/seller_products.html', {'products': products})
+
 @login_required
 def seller_products(request):
     if not request.user.is_seller():
         return HttpResponseForbidden("Only sellers can view this page")
     
+    # Fetch products for the seller
     products = Product.objects.filter(seller=request.user)
-    return render(request, 'products/seller_products.html', {'products': products})
+    
+    # Fetch subscription details
+    subscription_start_date = None
+    subscription_end_date = None
+
+    if request.user.subscribed:
+        subscription_start_date = request.user.subscription_start_date
+        subscription_end_date = request.user.subscription_end_date
+
+    # Pass subscription details to the template
+    return render(request, 'products/seller_products.html', {
+        'products': products,
+        'subscription_start_date': subscription_start_date,
+        'subscription_end_date': subscription_end_date,
+    })
 
 
 @login_required
