@@ -34,7 +34,7 @@ jobs:
         working-directory: shopsense
 
       - name: Run collectstatic
-        run: python manage.py collectstatic
+        run: python manage.py collectstatic --noinput
         working-directory: shopsense
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
