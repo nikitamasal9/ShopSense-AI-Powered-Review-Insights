@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-p5b)#o7vo#$#*0%n75zdxa8=#u#^xxzt6%z-+n+&l-ggrqwd-k
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['shopsense-d3axbvh4a2hugfbt.eastus-01.azurewebsites.net']
 
 
 # Application definition
