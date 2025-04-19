@@ -51,7 +51,7 @@ def signup_view(request):
             messages.success(request, "Your account has been created successfully.")
             return redirect('home')
         else:
-            # Add error messages to indicate specific issues
+            # error messages to indicate specific issues
             for field, errors in form.errors.items():
                 for error in errors:
                     messages.error(request, f"{field.capitalize()}: {error}")
@@ -73,9 +73,9 @@ def login_view(request):
                 login(request, user)
                 messages.info(request, f"You are now logged in as {username}")
                 if user.is_seller():
-                    return redirect('/home')  # Redirect sellers to "My Products"
+                    return redirect('/home') 
                 else:
-                    return redirect('/home')  # Redirect customers to "Homepage"
+                    return redirect('/home') 
                 # return redirect('products:product_list')
             else:
                 messages.error(request, "Invalid username or password.")
@@ -97,7 +97,7 @@ def customer_login(request):
         user = authenticate(request, username=username, password=password, backend='accounts.auth_backends.CustomerBackend')
         if user is not None:
             login(request, user)
-            return redirect('home')  # Redirect to customer dashboard
+            return redirect('home')
         else:
             messages.error(request, "Invalid credentials or not a customer.")
     return render(request, 'accounts/customer_login.html')
@@ -109,7 +109,7 @@ def seller_login(request):
         user = authenticate(request, username=username, password=password, backend='accounts.auth_backends.SellerBackend')
         if user is not None:
             login(request, user)
-            return redirect('products:seller_products')  # Redirect to seller dashboard
+            return redirect('products:seller_products')
         else:
             messages.error(request, "Invalid credentials or not a seller.")
     return render(request, 'accounts/seller_login.html')

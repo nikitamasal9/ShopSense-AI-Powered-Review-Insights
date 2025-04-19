@@ -13,7 +13,7 @@
                 <div class="card-body p-4">
                     <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
                         {% csrf_token %}
-                        <!-- Product Name -->
+                        
                         <div class="mb-4">
                             <label for="{{ form.name.id_for_label }}" class="form-label fw-bold">Product Name</label>
                             <input type="text" id="{{ form.name.id_for_label }}" name="{{ form.name.html_name }}" class="form-control form-control-lg" value="{{ form.name.value|default_if_none:'' }}" required>
@@ -21,7 +21,7 @@
                             <div class="text-danger small mt-1">{{ form.name.errors|join:" " }}</div>
                             {% endif %}
                         </div>
-                        <!-- Description -->
+                        
                         <div class="mb-4">
                             <label for="{{ form.description.id_for_label }}" class="form-label fw-bold">Description</label>
                             <textarea id="{{ form.description.id_for_label }}" name="{{ form.description.html_name }}" class="form-control form-control-lg" rows="4" required>{{ form.description.value|default_if_none:'' }}</textarea>
@@ -29,7 +29,7 @@
                             <div class="text-danger small mt-1">{{ form.description.errors|join:" " }}</div>
                             {% endif %}
                         </div>
-                        <!-- Price -->
+                        
                         <div class="mb-4">
                             <label for="{{ form.price.id_for_label }}" class="form-label fw-bold">Price ($)</label>
                             <input type="number" id="{{ form.price.id_for_label }}" name="{{ form.price.html_name }}" class="form-control form-control-lg" step="0.01" value="{{ form.price.value|default_if_none:'' }}" required>
@@ -37,7 +37,7 @@
                             <div class="text-danger small mt-1">{{ form.price.errors|join:" " }}</div>
                             {% endif %}
                         </div>
-                        <!-- Product Image -->
+                        
                         <div class="mb-4">
                             <label for="{{ form.image.id_for_label }}" class="form-label fw-bold">Product Image</label>
                             <input type="file" id="{{ form.image.id_for_label }}" name="{{ form.image.html_name }}" class="form-control form-control-lg" required>
@@ -45,7 +45,7 @@
                             <div class="text-danger small mt-1">{{ form.image.errors|join:" " }}</div>
                             {% endif %}
                         </div>
-                        <!-- Submit and Cancel Buttons -->
+                        
                         <div class="d-flex justify-content-between">
                             <button type="submit" class="btn btn-primary btn-lg px-5">
                                 <i class="bi bi-plus-circle me-2"></i>Add Product

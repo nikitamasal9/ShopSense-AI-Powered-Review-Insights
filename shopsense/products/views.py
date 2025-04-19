@@ -92,7 +92,7 @@ def product_list(request):
 def product_detail(request, pk):
     product = get_object_or_404(Product, id=pk)
 
-    # Check if the user has purchased the product and the order is delivered
+    # Check if user purchased the product and the order is delivered
     has_purchased = False
     if request.user.is_authenticated:
         has_purchased = OrderItem.objects.filter(
@@ -107,13 +107,14 @@ def product_detail(request, pk):
                 seller=product.seller,
                 product=product
             )
-            product_click.count += 1  # Increment the click count
+            product_click.count += 1 
             product_click.save()
 
     return render(request, 'products/product_detail.html', {
         'product': product,
         'has_purchased': has_purchased,
     })
+
 @login_required
 def add_product(request):
     if not request.user.is_seller():
@@ -144,10 +145,10 @@ def seller_products(request):
     if not request.user.is_seller():
         return HttpResponseForbidden("Only sellers can view this page")
     
-    # Fetch products for the seller
+    # Fetch products
     products = Product.objects.filter(seller=request.user)
     
-    # Fetch subscription details
+
     subscription_start_date = None
     subscription_end_date = None
 
@@ -169,7 +170,7 @@ def seller_orders(request):
         return HttpResponseForbidden("Only sellers can view this page")
     
     # Get orders for products sold by the seller
-    orders = Order.objects.filter(items__product__seller=request.user).distinct()
+    orders = Order.objects.filter(items__product__seller=request.user).order_by('-id')
     
     return render(request, 'products/seller_orders.html', {'orders': orders})
 
@@ -221,7 +222,7 @@ def add_review(request, product_id):
         intent_result = intent_pipeline(comment, candidate_labels=intent_labels)
         intent = intent_result['labels'][0]  # Get the highest scoring label
 
-        # Intent Classification (Specific Scope)
+        # Specific Scope
         intent_scope = [
             "packaging", 
             "delivery", 

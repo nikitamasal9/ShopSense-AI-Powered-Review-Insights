@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="container py-5">
-    <!-- Browse Products Section -->
+    
     <div class="text-center mb-5">
         <h1 class="fw-bold text-primary">Browse Our Products</h1>
         {% if query %}
@@ -20,7 +20,7 @@
             {% for product in products %}
             <div class="col-md-4 col-sm-6 mb-4">
                 <div class="card h-100 shadow-lg border-0 product-card">
-                    <!-- Product Image -->
+                    
                     {% if product.image %}
                     <img src="{{ product.image.url }}" class="card-img-top product-img" alt="{{ product.name }}">
                     {% else %}
@@ -54,7 +54,7 @@
     </div>
 </div>
 
-<!-- Custom Styling for the Product Page -->
+<!-- Custom Styling -->
 <style>
     .product-img {
         height: 200px;
