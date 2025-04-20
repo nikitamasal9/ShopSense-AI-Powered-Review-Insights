@@ -9,6 +9,23 @@ from decimal import Decimal
 from products.models import Product
 from .models import CartItem, Order, OrderItem
 from django import forms
+from rest_framework import status
+from rest_framework.views import APIView
+from django.http import JsonResponse
+from .serializers import OrderSerializer, OrderItemSerializer
+from rest_framework.response import Response
+
+class OrderListAPI(APIView):
+    def get(self, request):
+        products = Order.objects.all()
+        serializer = OrderSerializer(products, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+class OrderItemListAPI(APIView):
+    def get(self, request):
+        products = OrderItem.objects.all()
+        serializer = OrderItemSerializer(products, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 class CheckoutForm(forms.Form):
     full_name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))

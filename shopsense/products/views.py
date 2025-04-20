@@ -10,10 +10,31 @@ from django.db.models import Q
 from datetime import timedelta
 from django.utils.timezone import now
 from django.conf import settings
-from transformers import pipeline
+from transformers import pipeline, AutoModelForSequenceClassification, AutoTokenizer
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework import status
+from django.http import JsonResponse
+from .serializers import ProductSerializer, ReviewSerializer, ClickSerializer
 
+class ProductListAPI(APIView):
+    def get(self, request):
+        products = Product.objects.all()
+        serializer = ProductSerializer(products, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class ReviewListAPI(APIView):
+    def get(self, request):
+        reviews = ProductReview.objects.all()
+        serializer = ReviewSerializer(reviews, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class ClickListAPI(APIView):
+    def get(self, request):
+        orders = ProductClick.objects.all()
+        serializer = ClickSerializer(orders, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
 @login_required
 def update_product(request, product_id):
     product = get_object_or_404(Product, id=product_id, seller=request.user)
@@ -27,8 +48,12 @@ def update_product(request, product_id):
         form = ProductForm(instance=product)
     return render(request, 'products/update_item.html', {'form': form, 'product': product})
 
-emotion_pipeline = pipeline("text-classification", model="SamLowe/roberta-base-go_emotions", top_k=1)
-intent_pipeline = pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
+def get_models():
+    model = AutoModelForSequenceClassification.from_pretrained("typeform/distilbert-base-uncased-mnli", low_cpu_mem_usage=True)
+    tokenizer = AutoTokenizer.from_pretrained("typeform/distilbert-base-uncased-mnli")
+    emotion_pipeline = pipeline("text-classification", model="SamLowe/roberta-base-go_emotions", top_k=1)
+    intent_pipeline = pipeline("zero-shot-classification", model=model, tokenizer=tokenizer)
+    return emotion_pipeline, intent_pipeline
 
 # Emotion groups
 EMOTION_GROUPS = {
@@ -92,7 +117,7 @@ def product_list(request):
 def product_detail(request, pk):
     product = get_object_or_404(Product, id=pk)
 
-    # Check if the user has purchased the product and the order is delivered
+    # Check if user purchased the product and the order is delivered
     has_purchased = False
     if request.user.is_authenticated:
         has_purchased = OrderItem.objects.filter(
@@ -107,13 +132,14 @@ def product_detail(request, pk):
                 seller=product.seller,
                 product=product
             )
-            product_click.count += 1  # Increment the click count
+            product_click.count += 1 
             product_click.save()
 
     return render(request, 'products/product_detail.html', {
         'product': product,
         'has_purchased': has_purchased,
     })
+
 @login_required
 def add_product(request):
     if not request.user.is_seller():
@@ -144,10 +170,10 @@ def seller_products(request):
     if not request.user.is_seller():
         return HttpResponseForbidden("Only sellers can view this page")
     
-    # Fetch products for the seller
+    # Fetch products
     products = Product.objects.filter(seller=request.user)
     
-    # Fetch subscription details
+
     subscription_start_date = None
     subscription_end_date = None
 
@@ -169,7 +195,7 @@ def seller_orders(request):
         return HttpResponseForbidden("Only sellers can view this page")
     
     # Get orders for products sold by the seller
-    orders = Order.objects.filter(items__product__seller=request.user).distinct()
+    orders = Order.objects.filter(items__product__seller=request.user).order_by('-id')
     
     return render(request, 'products/seller_orders.html', {'orders': orders})
 
@@ -210,7 +236,7 @@ def add_review(request, product_id):
         rating = int(request.POST.get('rating', 5))
         # emotion_result = emotion_pipeline(comment)
         # emotion = emotion_result[0][0]['label']
-
+        emotion_pipeline, intent_pipeline = get_models()
         # Emotion Classification
         emotion_result = emotion_pipeline(comment)
         specific_emotion = emotion_result[0][0]['label']
@@ -221,7 +247,7 @@ def add_review(request, product_id):
         intent_result = intent_pipeline(comment, candidate_labels=intent_labels)
         intent = intent_result['labels'][0]  # Get the highest scoring label
 
-        # Intent Classification (Specific Scope)
+        # Specific Scope
         intent_scope = [
             "packaging", 
             "delivery", 

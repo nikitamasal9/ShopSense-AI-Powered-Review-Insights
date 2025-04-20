@@ -4,26 +4,26 @@
 
 {% block content %}
 <div class="container py-5">
-    <!-- Header Section -->
+    
     <div class="text-center mb-5">
         <h1 class="display-4 text-primary">Share Your Experience</h1>
         <p class="text-muted">Tell us what you think about <strong>{{ product.name }}</strong>. Your feedback helps us improve!</p>
     </div>
 
-    <!-- Review Form Section -->
+    
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card shadow-lg border-0 rounded-3">
                 <div class="card-body p-4">
                     <form method="post">
                         {% csrf_token %}
-                        <!-- Comment Section -->
+                        
                         <div class="mb-4">
                             <label for="comment" class="form-label fw-bold">Your Comments</label>
                             <textarea id="comment" name="comment" class="form-control form-control-lg" rows="4" placeholder="Write your thoughts about the product..." required></textarea>
                         </div>
                         
-                        <!-- Rating Section -->
+                        
                         <div class="mb-4">
                             <label class="form-label fw-bold">Your Rating</label>
                             <div class="d-flex gap-3 align-items-center">
@@ -51,7 +51,7 @@
                             <small class="text-muted d-block mt-2">Select one rating that best describes your experience.</small>
                         </div>
 
-                        <!-- Submit Button -->
+                        
                         <div class="mt-4 text-center">
                             <button type="submit" class="btn btn-primary btn-lg px-5">
                                 <i class="bi bi-check-circle me-2"></i>Submit Review
@@ -74,7 +74,7 @@
 
     .form-check-input {
         cursor: pointer;
-        transform: scale(1.2); /* Slightly enlarge radio buttons */
+        transform: scale(1.2); 
     }
 
     .form-check-label {

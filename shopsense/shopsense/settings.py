@@ -44,13 +44,14 @@ INSTALLED_APPS = [
     # 'theme',
     # 'django_browser_reload',
     # 'reviews',
-    # 'rest_framework',
+    'rest_framework',
     'accounts',
     'cart',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -136,6 +137,8 @@ STATICFILES_DIRS = [
     BASE_DIR / "Theme"/"static",
 ]
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

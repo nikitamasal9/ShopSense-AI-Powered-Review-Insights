@@ -21,7 +21,7 @@ class ReviewAnalysis(APIView):
         # Intent Classification
         intent_labels = ["praise intent", "complaint intent"]
         intent_result = intent_pipeline(review_text, candidate_labels=intent_labels)
-        intent = intent_result['labels'][0]  # Get the highest scoring label
+        intent = intent_result['labels'][0] 
 
         response_data = {
             "review": review_text,

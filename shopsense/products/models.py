@@ -17,7 +17,7 @@ class ProductClick(models.Model):
     buyer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='product_clicks')
     seller = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='seller_clicks')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='clicks')
-    count = models.PositiveIntegerField(default=0)  # Number of clicks
+    count = models.PositiveIntegerField(default=0) 
 
     def __str__(self):
         return f"Buyer {self.buyer.username} clicked on {self.product.name} ({self.count} times)"
@@ -26,11 +26,11 @@ class ProductReview(models.Model):
     product = models.ForeignKey('Product', on_delete=models.CASCADE, related_name='reviews')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     comment = models.TextField()
-    rating = models.PositiveSmallIntegerField(default=5)  # Rating out of 5
-    emotion = models.CharField(max_length=50, default="neutral")  # Add this field
-    emotion_group = models.CharField(max_length=50, default="unknown")  # Add this field
+    rating = models.PositiveSmallIntegerField(default=5) 
+    emotion = models.CharField(max_length=50, default="neutral") 
+    emotion_group = models.CharField(max_length=50, default="unknown") 
     intent = models.CharField(max_length=50)
-    scope = models.CharField(max_length=50, default="general")  # Add this field
+    scope = models.CharField(max_length=50, default="general") 
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

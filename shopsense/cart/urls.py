@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .views import OrderListAPI, OrderItemListAPI
 
 app_name = 'cart'
 
@@ -13,4 +14,9 @@ urlpatterns = [
     path('order-confirmation/<int:order_id>/', views.order_confirmation, name='order_confirmation'),
     path('my-orders/', views.my_orders, name='my_orders'),
     path('order-detail/<int:order_id>/', views.order_detail, name='order_detail'),
+
+    path('api/orders/', OrderListAPI.as_view(), name='api_users'),
+    path('api/orderitems/', OrderItemListAPI.as_view(), name='api_users'),
+
 ]
+
