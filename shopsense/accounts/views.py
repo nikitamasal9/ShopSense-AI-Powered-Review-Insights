@@ -4,6 +4,17 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from django import forms
 from .models import User
+from rest_framework import status
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from django.http import JsonResponse
+from .serializers import UserSerializer
+
+class UserListAPI(APIView):
+    def get(self, request):
+        products = User.objects.all()
+        serializer = UserSerializer(products, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 class UserCreationForm(forms.ModelForm):
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)

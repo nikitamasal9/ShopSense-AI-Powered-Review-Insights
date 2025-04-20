@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     # 'theme',
     # 'django_browser_reload',
     # 'reviews',
-    # 'rest_framework',
+    'rest_framework',
     'accounts',
     'cart',
 ]
