@@ -7,8 +7,8 @@
 ## Key Features
 
 - AI model-based review classification using Hugging Face models
-    - `typeform/distilbert-base-uncased-mnli` for intent & scope classification
-    - `SamLowe/roberta-base-go_emotions` for emotion classification
+    - `[typeform/distilbert-base-uncased-mnli](https://huggingface.co/typeform/distilbert-base-uncased-mnli)` for intent & scope classification
+    - `[SamLowe/roberta-base-go_emotions](https://huggingface.co/SamLowe/roberta-base-go_emotions)` for emotion classification
 - Seller-side product management and customer-side review system
 - Reviews allowed **only after product delivery**
 - Local Power BI Report Server integration
